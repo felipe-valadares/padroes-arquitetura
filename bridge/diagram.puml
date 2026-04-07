@@ -1,0 +1,75 @@
+@startuml Bridge
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Bridge — Formas e Renderizadores
+
+' ── Implementor ──
+interface RenderizadorAPI {
+    + renderizarCirculo(x, y, raio) : String
+    + renderizarRetangulo(x, y, largura, altura) : String
+}
+
+' ── Concrete Implementors ──
+class RenderizadorVetorial implements RenderizadorAPI {
+    + renderizarCirculo(...) : String
+    + renderizarRetangulo(...) : String
+}
+
+class RenderizadorRaster implements RenderizadorAPI {
+    + renderizarCirculo(...) : String
+    + renderizarRetangulo(...) : String
+}
+
+' ── Abstraction ──
+abstract class Forma {
+    # renderizador : RenderizadorAPI
+    --
+    + Forma(renderizador : RenderizadorAPI)
+    + {abstract} desenhar() : String
+    + {abstract} redimensionar(fator : double) : Forma
+}
+
+' ── Refined Abstractions ──
+class Circulo extends Forma {
+    - x : double
+    - y : double
+    - raio : double
+    --
+    + desenhar() : String
+    + redimensionar(fator : double) : Circulo
+    + getRaio() : double
+}
+
+class Retangulo extends Forma {
+    - x : double
+    - y : double
+    - largura : double
+    - altura : double
+    --
+    + desenhar() : String
+    + redimensionar(fator : double) : Retangulo
+    + getLargura() : double
+    + getAltura() : double
+}
+
+' ── Ponte (Bridge) ──
+Forma o--> RenderizadorAPI : renderizador\n<<bridge>>
+
+note on link
+  Esta associação **é a ponte**:
+  separa a hierarquia de formas
+  da hierarquia de renderizadores.
+end note
+
+note bottom of Forma
+  Sem Bridge: precisaríamos de
+  CirculoVetorial, CirculoRaster,
+  RetanguloVetorial, RetanguloRaster...
+  Com Bridge: N formas × M renderizadores
+  → N + M classes (não N × M).
+end note
+
+@enduml
