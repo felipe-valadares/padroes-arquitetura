@@ -1,0 +1,40 @@
+@startuml Singleton
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Singleton — ConfiguracaoApp
+
+class ConfiguracaoApp {
+    - {static} instancia : ConfiguracaoApp  <<volatile>>
+    - propriedades : Map<String, String>
+    --
+    - ConfiguracaoApp()
+    + {static} getInstancia() : ConfiguracaoApp
+    + getPropriedade(chave : String) : String
+    + setPropriedade(chave : String, valor : String) : void
+    + getTodasPropriedades() : Map<String, String>
+    + contemPropriedade(chave : String) : boolean
+}
+
+note right of ConfiguracaoApp
+  **Double-Checked Locking**
+  if (instancia == null)           // 1ª verificação (sem lock)
+    synchronized(ConfiguracaoApp)
+      if (instancia == null)       // 2ª verificação (com lock)
+        instancia = new ...
+  **volatile** garante visibilidade
+  entre threads da JVM.
+end note
+
+note bottom of ConfiguracaoApp
+  Construtor **privado** impede
+  instanciação direta.
+  Apenas getInstancia() cria
+  e retorna o objeto.
+end note
+
+ConfiguracaoApp --> ConfiguracaoApp : <<self-reference>>\ninstancia
+
+@enduml
