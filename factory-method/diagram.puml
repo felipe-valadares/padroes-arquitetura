@@ -1,0 +1,53 @@
+@startuml FactoryMethod
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Factory Method — Criadores de Documento
+
+' ── Produto abstrato ──
+interface Documento {
+    + abrir() : String
+    + salvar() : String
+    + fechar() : String
+    + getFormato() : String
+}
+
+' ── Produtos concretos ──
+class DocumentoPDF implements Documento
+class DocumentoWord implements Documento
+class DocumentoMarkdown implements Documento
+
+' ── Criador abstrato ──
+abstract class CriadorDocumento {
+    + {abstract} criarDocumento() : Documento
+    + processarDocumento() : String
+}
+
+note right of CriadorDocumento
+  **processarDocumento()** usa
+  **criarDocumento()** sem conhecer
+  o tipo concreto — Template Method
+  integrado ao Factory Method.
+end note
+
+' ── Criadores concretos ──
+class CriadorPDF extends CriadorDocumento {
+    + criarDocumento() : DocumentoPDF
+}
+
+class CriadorWord extends CriadorDocumento {
+    + criarDocumento() : DocumentoWord
+}
+
+class CriadorMarkdown extends CriadorDocumento {
+    + criarDocumento() : DocumentoMarkdown
+}
+
+' ── Relações de criação ──
+CriadorPDF ..> DocumentoPDF : <<creates>>
+CriadorWord ..> DocumentoWord : <<creates>>
+CriadorMarkdown ..> DocumentoMarkdown : <<creates>>
+
+@enduml
