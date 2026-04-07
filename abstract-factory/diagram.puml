@@ -1,0 +1,66 @@
+@startuml AbstractFactory
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Abstract Factory — Fábricas de UI
+
+' ── Produtos abstratos ──
+interface Botao {
+    + renderizar() : String
+    + clicar() : String
+}
+
+interface CaixaSelecao {
+    + renderizar() : String
+    + alternarEstado() : boolean
+    + estaMarcada() : boolean
+}
+
+' ── Produtos concretos Windows ──
+class BotaoWindows implements Botao
+class CaixaSelecaoWindows implements CaixaSelecao
+
+' ── Produtos concretos Mac ──
+class BotaoMac implements Botao
+class CaixaSelecaoMac implements CaixaSelecao
+
+' ── Fábrica abstrata ──
+interface FabricaUI {
+    + criarBotao() : Botao
+    + criarCaixaSelecao() : CaixaSelecao
+}
+
+' ── Fábricas concretas ──
+class FabricaWindows implements FabricaUI {
+    + criarBotao() : BotaoWindows
+    + criarCaixaSelecao() : CaixaSelecaoWindows
+}
+
+class FabricaMac implements FabricaUI {
+    + criarBotao() : BotaoMac
+    + criarCaixaSelecao() : CaixaSelecaoMac
+}
+
+' ── Cliente ──
+class Aplicacao {
+    - botao : Botao
+    - caixaSelecao : CaixaSelecao
+    --
+    + Aplicacao(fabrica : FabricaUI)
+    + construirUI() : String
+    + interagir() : String
+}
+
+' ── Relações ──
+FabricaWindows ..> BotaoWindows : <<creates>>
+FabricaWindows ..> CaixaSelecaoWindows : <<creates>>
+FabricaMac ..> BotaoMac : <<creates>>
+FabricaMac ..> CaixaSelecaoMac : <<creates>>
+
+Aplicacao --> FabricaUI : usa
+Aplicacao --> Botao : compõe
+Aplicacao --> CaixaSelecao : compõe
+
+@enduml
