@@ -1,0 +1,57 @@
+# Strategy
+
+```plantuml
+@startuml Strategy
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Strategy — Formas de Pagamento
+
+interface EstrategiaPagamento {
+    + processar(valor : double) : String
+    + getNome() : String
+}
+
+class PagamentoCredito {
+    - parcelas : int
+    - TAXA : double = 0.03
+    --
+    + processar(valor : double) : String
+    + getNome() : String
+}
+
+class PagamentoPIX {
+    + processar(valor : double) : String
+    + getNome() : String
+}
+
+class PagamentoBoleto {
+    + processar(valor : double) : String
+    + getNome() : String
+}
+
+class CarrinhoCompras {
+    - itens : List<Item>
+    - estrategia : EstrategiaPagamento
+    --
+    + adicionarItem(nome : String, preco : double)
+    + calcularTotal() : double
+    + setEstrategia(e : EstrategiaPagamento)
+    + finalizarCompra() : String
+}
+
+EstrategiaPagamento <|.. PagamentoCredito
+EstrategiaPagamento <|.. PagamentoPIX
+EstrategiaPagamento <|.. PagamentoBoleto
+CarrinhoCompras --> EstrategiaPagamento : <<usa>>
+
+note right of CarrinhoCompras
+  A estratégia pode ser trocada
+  em tempo de execução sem
+  alterar o contexto.
+end note
+
+@enduml
+```
