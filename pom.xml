@@ -17,6 +17,10 @@
         <module>abstract-factory</module>
         <module>factory-method</module>
         <module>bridge</module>
+        <module>decorator</module>
+        <module>state</module>
+        <module>observer</module>
+        <module>strategy</module>
     </modules>
 
     <properties>
