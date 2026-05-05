@@ -1,0 +1,63 @@
+@startuml State
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão State — Pedido de E-commerce
+
+interface EstadoPedido {
+    + pagar(pedido : Pedido)
+    + enviar(pedido : Pedido)
+    + entregar(pedido : Pedido)
+    + cancelar(pedido : Pedido)
+    + getNome() : String
+}
+
+class Pedido {
+    - estado : EstadoPedido
+    - historico : List<String>
+    --
+    + pagar()
+    + enviar()
+    + entregar()
+    + cancelar()
+    + getEstado() : String
+    + getHistorico() : List<String>
+    + setEstado(estado : EstadoPedido)
+}
+
+class EstadoPendente {
+    + getNome() : String
+}
+
+class EstadoPago {
+    + getNome() : String
+}
+
+class EstadoEnviado {
+    + getNome() : String
+}
+
+class EstadoEntregue {
+    + getNome() : String
+}
+
+class EstadoCancelado {
+    + getNome() : String
+}
+
+Pedido --> EstadoPedido : estado atual
+EstadoPedido <|.. EstadoPendente
+EstadoPedido <|.. EstadoPago
+EstadoPedido <|.. EstadoEnviado
+EstadoPedido <|.. EstadoEntregue
+EstadoPedido <|.. EstadoCancelado
+
+note bottom of Pedido
+  Delega pagar/enviar/entregar/cancelar
+  ao estado atual. Transições inválidas
+  lançam IllegalStateException.
+end note
+
+@enduml

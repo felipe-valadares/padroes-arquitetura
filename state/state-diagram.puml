@@ -1,0 +1,32 @@
+@startuml StateDiagram
+
+skinparam monochrome false
+skinparam shadowing false
+
+title Diagrama de Estados — Pedido de E-commerce
+
+[*] --> Pendente : criação do pedido
+
+Pendente --> Pago      : pagar()
+Pendente --> Cancelado : cancelar()
+
+Pago --> Enviado   : enviar()
+Pago --> Cancelado : cancelar()
+
+Enviado --> Entregue  : entregar()
+Enviado --> Cancelado : cancelar()
+
+Entregue --> [*]
+Cancelado --> [*]
+
+note right of Entregue
+  Estado terminal.
+  Nenhuma transição permitida.
+end note
+
+note right of Cancelado
+  Estado terminal.
+  Nenhuma transição permitida.
+end note
+
+@enduml
