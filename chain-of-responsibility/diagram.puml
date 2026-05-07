@@ -1,0 +1,66 @@
+@startuml ChainOfResponsibility
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Chain of Responsibility — Suporte Técnico
+
+enum Prioridade {
+    BAIXA
+    MEDIA
+    ALTA
+}
+
+class TicketSuporte <<record>> {
+    + id : int
+    + descricao : String
+    + prioridade : Prioridade
+}
+
+abstract class ManipuladorSuporte {
+    # proximo : ManipuladorSuporte
+    --
+    + setProximo(proximo : ManipuladorSuporte) : ManipuladorSuporte
+    + {abstract} manipular(ticket : TicketSuporte) : String
+    # passarParaProximo(ticket : TicketSuporte) : String
+}
+
+class SuporteNivel1 {
+    + manipular(ticket : TicketSuporte) : String
+}
+
+class SuporteNivel2 {
+    + manipular(ticket : TicketSuporte) : String
+}
+
+class SuporteNivel3 {
+    + manipular(ticket : TicketSuporte) : String
+}
+
+ManipuladorSuporte <|-- SuporteNivel1
+ManipuladorSuporte <|-- SuporteNivel2
+ManipuladorSuporte <|-- SuporteNivel3
+ManipuladorSuporte --> ManipuladorSuporte : proximo
+TicketSuporte --> Prioridade
+ManipuladorSuporte ..> TicketSuporte : <<usa>>
+
+note right of ManipuladorSuporte
+  Cada handler decide se resolve
+  o ticket ou repassa ao próximo
+  na cadeia.
+end note
+
+note bottom of SuporteNivel1
+  Resolve: BAIXA
+end note
+
+note bottom of SuporteNivel2
+  Resolve: MEDIA
+end note
+
+note bottom of SuporteNivel3
+  Resolve: ALTA
+end note
+
+@enduml
