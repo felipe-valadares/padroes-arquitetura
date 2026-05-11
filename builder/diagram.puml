@@ -1,0 +1,82 @@
+@startuml Builder
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Builder — Montagem de Computadores
+
+class Computador <<record>> {
+    + cpu : String
+    + memoriaGb : int
+    + armazenamentoGb : int
+    + gpu : String
+    + sistemaOperacional : String
+}
+
+abstract class ComputadorBuilder {
+    # cpu : String
+    # memoriaGb : int
+    # armazenamentoGb : int
+    # gpu : String
+    # sistemaOperacional : String
+    --
+    + {abstract} configurarCpu() : ComputadorBuilder
+    + {abstract} configurarMemoria() : ComputadorBuilder
+    + {abstract} configurarArmazenamento() : ComputadorBuilder
+    + {abstract} configurarGpu() : ComputadorBuilder
+    + {abstract} configurarSistemaOperacional() : ComputadorBuilder
+    + construir() : Computador
+}
+
+class ComputadorGamerBuilder {
+    + configurarCpu() : ComputadorBuilder
+    + configurarMemoria() : ComputadorBuilder
+    + configurarArmazenamento() : ComputadorBuilder
+    + configurarGpu() : ComputadorBuilder
+    + configurarSistemaOperacional() : ComputadorBuilder
+}
+
+class ComputadorEscritorioBuilder {
+    + configurarCpu() : ComputadorBuilder
+    + configurarMemoria() : ComputadorBuilder
+    + configurarArmazenamento() : ComputadorBuilder
+    + configurarGpu() : ComputadorBuilder
+    + configurarSistemaOperacional() : ComputadorBuilder
+}
+
+class Montador {
+    - builder : ComputadorBuilder
+    --
+    + Montador(builder : ComputadorBuilder)
+    + montarComputadorCompleto() : Computador
+}
+
+ComputadorBuilder <|-- ComputadorGamerBuilder
+ComputadorBuilder <|-- ComputadorEscritorioBuilder
+ComputadorBuilder ..> Computador : <<cria>>
+Montador --> ComputadorBuilder : usa
+
+note right of ComputadorBuilder
+  Define os passos de construção.
+  Cada passo retorna o próprio
+  builder para encadeamento fluente.
+end note
+
+note bottom of ComputadorGamerBuilder
+  CPU i9 + 32GB RAM
+  2TB + RTX 4090
+end note
+
+note bottom of ComputadorEscritorioBuilder
+  CPU i5 + 16GB RAM
+  512GB + GPU integrada
+end note
+
+note right of Montador
+  Diretor: define a sequência
+  de chamada dos passos
+  de construção.
+end note
+
+@enduml

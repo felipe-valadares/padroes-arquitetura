@@ -21,6 +21,10 @@
         <module>state</module>
         <module>observer</module>
         <module>strategy</module>
+        <module>chain-of-responsibility</module>
+        <module>builder</module>
+        <module>mediator</module>
+        <module>template-method</module>
     </modules>
 
     <properties>
