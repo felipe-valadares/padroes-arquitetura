@@ -1,0 +1,51 @@
+@startuml TemplateMethod
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Template Method — Geração de Relatórios
+
+abstract class GeradorRelatorio {
+    + {final} gerar() : String
+    --
+    # {abstract} coletarDados() : String
+    # {abstract} processarDados(dados : String) : String
+    # {abstract} formatarRelatorio(dados : String) : String
+    # exportar(relatorio : String) : String
+}
+
+class RelatorioVendas {
+    # coletarDados() : String
+    # processarDados(dados : String) : String
+    # formatarRelatorio(dados : String) : String
+}
+
+class RelatorioEstoque {
+    # coletarDados() : String
+    # processarDados(dados : String) : String
+    # formatarRelatorio(dados : String) : String
+    # exportar(relatorio : String) : String
+}
+
+GeradorRelatorio <|-- RelatorioVendas
+GeradorRelatorio <|-- RelatorioEstoque
+
+note right of GeradorRelatorio
+  gerar() define o esqueleto
+  do algoritmo. Subclasses
+  implementam os passos
+  específicos.
+end note
+
+note bottom of RelatorioVendas
+  Exportação padrão: [PDF]
+  Dados de vendas e devoluções
+end note
+
+note bottom of RelatorioEstoque
+  Sobrescreve exportar(): [CSV]
+  Dados de produtos e críticos
+end note
+
+@enduml
