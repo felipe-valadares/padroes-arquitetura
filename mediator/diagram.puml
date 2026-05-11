@@ -1,0 +1,56 @@
+@startuml Mediator
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Mediator — Sala de Chat
+
+interface Mediador {
+    + registrar(participante : Participante) : void
+    + enviarMensagem(mensagem : String, remetente : Participante) : void
+}
+
+class SalaDeChat {
+    - participantes : List<Participante>
+    --
+    + registrar(participante : Participante) : void
+    + enviarMensagem(mensagem : String, remetente : Participante) : void
+}
+
+abstract class Participante {
+    # mediador : Mediador
+    # nome : String
+    --
+    + getNome() : String
+    + {abstract} enviar(mensagem : String) : void
+    + {abstract} receberMensagem(mensagem : String) : void
+}
+
+class Usuario {
+    - mensagensRecebidas : List<String>
+    --
+    + enviar(mensagem : String) : void
+    + receberMensagem(mensagem : String) : void
+    + getMensagensRecebidas() : List<String>
+}
+
+Mediador <|.. SalaDeChat
+Participante <|-- Usuario
+Participante --> Mediador : usa
+SalaDeChat --> Participante : notifica
+
+note right of SalaDeChat
+  Centraliza a comunicação.
+  Participantes não se conhecem
+  diretamente — tudo passa
+  pelo mediador.
+end note
+
+note bottom of Usuario
+  Envia via mediador.
+  Recebe e armazena
+  mensagens dos outros.
+end note
+
+@enduml
