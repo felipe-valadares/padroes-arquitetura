@@ -29,7 +29,7 @@ class GerenciadorEstoque {
 }
 
 class ProcessadorPagamento {
-    + processar(cartao, valor) : boolean
+    + processar(cartao, quantidade) : boolean
 }
 
 class ServicoNotificacao {

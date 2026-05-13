@@ -26,6 +26,7 @@
         <module>mediator</module>
         <module>template-method</module>
         <module>composite</module>
+        <module>facade</module>
     </modules>
 
     <properties>

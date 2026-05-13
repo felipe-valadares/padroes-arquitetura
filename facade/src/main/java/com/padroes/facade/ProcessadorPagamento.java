@@ -1,7 +1,7 @@
 package com.padroes.facade;
 
 public class ProcessadorPagamento {
-    public boolean processar(String cartao, double valor) {
-        return cartao != null && !cartao.isBlank() && valor > 0;
+    public boolean processar(String cartao, int quantidade) {
+        return cartao != null && !cartao.isBlank() && quantidade > 0;
     }
 }
