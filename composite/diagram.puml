@@ -1,0 +1,53 @@
+@startuml Composite
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Composite — Sistema de Arquivos
+
+' ── Component ──
+interface ComponenteSistema {
+    + getNome() : String
+    + getTamanho() : long
+    + listar(prefixo : String) : String
+}
+
+' ── Leaf ──
+class Arquivo implements ComponenteSistema {
+    - nome : String
+    - tamanho : long
+    --
+    + getNome() : String
+    + getTamanho() : long
+    + listar(prefixo : String) : String
+}
+
+' ── Composite ──
+class Diretorio implements ComponenteSistema {
+    - nome : String
+    - filhos : List<ComponenteSistema>
+    --
+    + getNome() : String
+    + getTamanho() : long
+    + listar(prefixo : String) : String
+    + adicionar(c : ComponenteSistema) : void
+    + remover(c : ComponenteSistema) : void
+}
+
+Diretorio o--> "0..*" ComponenteSistema : filhos
+
+note bottom of Diretorio
+  getTamanho() soma recursivamente
+  todos os filhos da árvore.
+  adicionar/remover não estão na
+  interface — evita métodos inválidos
+  em Arquivo.
+end note
+
+note bottom of Arquivo
+  Folha (Leaf): sem filhos.
+  getTamanho() retorna valor fixo.
+end note
+
+@enduml
