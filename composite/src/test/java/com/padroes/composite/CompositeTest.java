@@ -94,7 +94,10 @@ class CompositeTest {
             dir.adicionar(arquivo);
             Diretorio raiz = new Diretorio("raiz");
             raiz.adicionar(dir);
-            assertDoesNotThrow(() -> raiz.listar(""));
+            String listagem = raiz.listar("");
+            assertTrue(listagem.contains("raiz"));
+            assertTrue(listagem.contains("dir"));
+            assertTrue(listagem.contains("a.txt"));
         }
 
         @Test
@@ -120,10 +123,10 @@ class CompositeTest {
             pai.adicionar(new Arquivo("filho.txt", 10));
             String listagem = pai.listar("");
             assertTrue(listagem.contains("pai"));
-            assertTrue(listagem.contains("filho.txt"));
-            int indicePai = listagem.indexOf("pai");
-            int indiceFilho = listagem.indexOf("filho.txt");
-            assertTrue(indiceFilho > indicePai);
+            String linhaFilho = listagem.lines()
+                .filter(l -> l.contains("filho.txt"))
+                .findFirst().orElse("");
+            assertTrue(linhaFilho.startsWith("  "), "Filho deve ser indentado com espaços");
         }
     }
 }

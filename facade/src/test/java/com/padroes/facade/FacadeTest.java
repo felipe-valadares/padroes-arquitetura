@@ -54,6 +54,7 @@ class FacadeTest {
         void deveReduzirEstoque() {
             loja.realizarCompra("Mouse", 1, "4111-1111-1111-1111", "a@b.com");
             assertFalse(estoque.verificarDisponibilidade("Mouse", 50));
+            assertTrue(estoque.verificarDisponibilidade("Mouse", 49));
         }
     }
 
@@ -117,7 +118,9 @@ class FacadeTest {
         @Test
         @DisplayName("Deve simplificar a interface em um único método")
         void devePossuirInterfaceSimplificada() {
-            assertDoesNotThrow(() -> loja.realizarCompra("Mouse", 1, "cartao-valido", "user@email.com"));
+            ResultadoCompra resultado = loja.realizarCompra("Mouse", 1, "cartao-valido", "user@email.com");
+            assertNotNull(resultado);
+            assertTrue(resultado.isSucesso());
         }
 
         @Test
