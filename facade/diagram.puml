@@ -1,0 +1,64 @@
+@startuml Facade
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Facade — Checkout de Loja
+
+' ── Cliente ──
+class Cliente <<externo>> {
+    + realizarCompra(...)
+}
+
+' ── Facade ──
+class LojaFacade {
+    - estoque : GerenciadorEstoque
+    - pagamento : ProcessadorPagamento
+    - notificacao : ServicoNotificacao
+    --
+    + realizarCompra(produto, quantidade, cartao, email) : ResultadoCompra
+}
+
+' ── Subsistemas ──
+class GerenciadorEstoque {
+    - estoque : Map<String, Integer>
+    --
+    + verificarDisponibilidade(produto, qtd) : boolean
+    + reservar(produto, qtd) : void
+}
+
+class ProcessadorPagamento {
+    + processar(cartao, valor) : boolean
+}
+
+class ServicoNotificacao {
+    - ultimaNotificacao : String
+    --
+    + enviarConfirmacao(email, produto) : void
+    + getUltimaNotificacao() : String
+}
+
+' ── Value Object ──
+class ResultadoCompra {
+    - sucesso : boolean
+    - mensagem : String
+    --
+    + isSucesso() : boolean
+    + getMensagem() : String
+}
+
+Cliente --> LojaFacade : usa
+LojaFacade --> GerenciadorEstoque
+LojaFacade --> ProcessadorPagamento
+LojaFacade --> ServicoNotificacao
+LojaFacade ..> ResultadoCompra : cria
+
+note right of LojaFacade
+  A Facade esconde a complexidade dos
+  três subsistemas, expondo apenas
+  realizarCompra() ao cliente.
+  O cliente não conhece os subsistemas.
+end note
+
+@enduml
