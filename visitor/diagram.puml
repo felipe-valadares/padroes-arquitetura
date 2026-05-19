@@ -1,0 +1,84 @@
+@startuml Visitor
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Visitor — Relatório Financeiro com múltiplos exportadores
+
+' ── Visitor Interface ──
+interface Visitante {
+    + visitar(receita : Receita) : void
+    + visitar(despesa : Despesa) : void
+    + visitar(investimento : Investimento) : void
+}
+
+' ── Concrete Visitors ──
+class ExportadorCSV {
+    - saida : StringBuilder
+    --
+    + visitar(receita : Receita) : void
+    + visitar(despesa : Despesa) : void
+    + visitar(investimento : Investimento) : void
+    + getSaida() : String
+}
+
+class ExportadorJSON {
+    - itens : List<String>
+    --
+    + visitar(receita : Receita) : void
+    + visitar(despesa : Despesa) : void
+    + visitar(investimento : Investimento) : void
+    + getSaida() : String
+}
+
+' ── Element Interface ──
+interface ItemRelatorio {
+    + getDescricao() : String
+    + getValor() : double
+    + aceitar(visitante : Visitante) : void
+}
+
+' ── Concrete Elements ──
+class Receita {
+    - descricao : String
+    - valor : double
+    --
+    + aceitar(visitante : Visitante) : void
+}
+
+class Despesa {
+    - descricao : String
+    - valor : double
+    --
+    + aceitar(visitante : Visitante) : void
+}
+
+class Investimento {
+    - descricao : String
+    - valor : double
+    - taxaRetorno : double
+    --
+    + aceitar(visitante : Visitante) : void
+    + getTaxaRetorno() : double
+}
+
+Visitante <|.. ExportadorCSV
+Visitante <|.. ExportadorJSON
+
+ItemRelatorio <|.. Receita
+ItemRelatorio <|.. Despesa
+ItemRelatorio <|.. Investimento
+
+Receita ..> Visitante : aceitar() chama\nvisitar(this)
+Despesa ..> Visitante : aceitar() chama\nvisitar(this)
+Investimento ..> Visitante : aceitar() chama\nvisitar(this)
+
+note bottom of Visitante
+  Double Dispatch: o elemento chama
+  visitar(this), e Java resolve o
+  método correto em tempo de execução
+  com base no tipo concreto.
+end note
+
+@enduml

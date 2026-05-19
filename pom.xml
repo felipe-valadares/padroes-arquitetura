@@ -27,6 +27,8 @@
         <module>template-method</module>
         <module>composite</module>
         <module>facade</module>
+        <module>memento</module>
+        <module>visitor</module>
     </modules>
 
     <properties>
