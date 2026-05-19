@@ -1,0 +1,57 @@
+@startuml Memento
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Memento — Editor de Texto com Undo/Redo
+
+class EditorTexto <<Originator>> {
+    - texto : StringBuilder
+    - posicaoCursor : int
+    --
+    + escrever(conteudo : String) : void
+    + apagar(quantidade : int) : void
+    + getTexto() : String
+    + getPosicaoCursor() : int
+    + salvar() : ConteudoTexto
+    + restaurar(memento : ConteudoTexto) : void
+}
+
+class ConteudoTexto <<Memento>> {
+    - texto : String
+    - posicaoCursor : int
+    --
+    ~ getTexto() : String
+    ~ getPosicaoCursor() : int
+}
+
+class HistoricoEdicao <<Caretaker>> {
+    - historico : Deque<ConteudoTexto>
+    - futuros : Deque<ConteudoTexto>
+    --
+    + salvar() : void
+    + desfazer() : void
+    + refazer() : void
+    + podeDesfazer() : boolean
+    + podeRefazer() : boolean
+}
+
+EditorTexto ..> ConteudoTexto : cria / restaura
+HistoricoEdicao --> EditorTexto : controla
+HistoricoEdicao o--> ConteudoTexto : armazena
+
+note right of ConteudoTexto
+  Visibilidade de pacote (package-private)
+  protege o estado interno do editor.
+  Apenas EditorTexto e HistoricoEdicao
+  têm acesso.
+end note
+
+note bottom of HistoricoEdicao
+  Mantém duas pilhas: historico (undo)
+  e futuros (redo). Uma nova edição
+  limpa a pilha de futuros.
+end note
+
+@enduml
