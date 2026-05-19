@@ -15,4 +15,9 @@ release.properties
 *.log
 
 # Ferramentas locais (Cursor / Claude)
-.claude/settings.local.json
+.claude/
+.claudeignore
+.mcp.json
+CLAUDE.md
+# Added by code-review-graph
+.code-review-graph/
