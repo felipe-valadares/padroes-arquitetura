@@ -1,0 +1,62 @@
+@startuml Iterator
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Iterator — Playlist de Músicas
+
+interface Iterador<T> {
+    + temProximo() : boolean
+    + proximo() : T
+    + reiniciar() : void
+}
+
+interface Agregado<T> {
+    + criarIterador() : Iterador<T>
+}
+
+class Musica {
+    - titulo : String
+    - artista : String
+    - duracaoSegundos : int
+    --
+    + getTitulo() : String
+    + getArtista() : String
+    + getDuracaoSegundos() : int
+}
+
+class Playlist {
+    - musicas : List<Musica>
+    --
+    + adicionar(musica : Musica) : void
+    + tamanho() : int
+    + criarIterador() : Iterador<Musica>
+    + criarIteradorEmbaralhado(random : Random) : Iterador<Musica>
+}
+
+class IteradorSequencial {
+    - posicao : int
+    --
+    + temProximo() : boolean
+    + proximo() : Musica
+    + reiniciar() : void
+}
+
+class IteradorEmbaralhado {
+    - embaralhadas : List<Musica>
+    - posicao : int
+    --
+    + temProximo() : boolean
+    + proximo() : Musica
+    + reiniciar() : void
+}
+
+Agregado <|.. Playlist
+Iterador <|.. IteradorSequencial
+Iterador <|.. IteradorEmbaralhado
+Playlist ..> IteradorSequencial : cria
+Playlist ..> IteradorEmbaralhado : cria
+Playlist o--> Musica : contém
+
+@enduml

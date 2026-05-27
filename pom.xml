@@ -30,6 +30,7 @@
         <module>memento</module>
         <module>visitor</module>
         <module>flyweight</module>
+        <module>iterator</module>
     </modules>
 
     <properties>
