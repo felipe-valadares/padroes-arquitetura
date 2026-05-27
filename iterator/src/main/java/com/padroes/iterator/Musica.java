@@ -16,6 +16,20 @@ public class Musica {
     public int getDuracaoSegundos() { return duracaoSegundos; }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Musica m)) return false;
+        return duracaoSegundos == m.duracaoSegundos
+                && titulo.equals(m.titulo)
+                && artista.equals(m.artista);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(titulo, artista, duracaoSegundos);
+    }
+
+    @Override
     public String toString() {
         return String.format("%s — %s (%ds)", titulo, artista, duracaoSegundos);
     }

@@ -103,5 +103,17 @@ class IteratorTest {
             while (it.temProximo()) it.proximo();
             assertFalse(it.temProximo());
         }
+
+        @Test
+        @DisplayName("reiniciar() permite percorrer todas novamente")
+        void reiniciarPermitePercorrerNovamente() {
+            Iterador<Musica> it = playlist.criarIteradorEmbaralhado(new Random(13));
+            while (it.temProximo()) it.proximo();
+            it.reiniciar();
+            List<Musica> resultado = new ArrayList<>();
+            while (it.temProximo()) resultado.add(it.proximo());
+            assertEquals(3, resultado.size());
+            assertTrue(resultado.containsAll(List.of(bohemian, hotel, stairway)));
+        }
     }
 }
