@@ -1,0 +1,62 @@
+@startuml Flyweight
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Flyweight — Floresta Simulada
+
+class TipoArvore {
+    - especie : String
+    - cor : String
+    - textura : String
+    --
+    + renderizar(x : int, y : int, altura : int) : void
+    + getEspecie() : String
+    + getCor() : String
+    + getTextura() : String
+}
+
+class FabricaArvores {
+    - cache : Map<String, TipoArvore>
+    --
+    + obter(especie, cor, textura) : TipoArvore
+    + totalTipos() : int
+}
+
+class Arvore {
+    - x : int
+    - y : int
+    - altura : int
+    --
+    + renderizar() : void
+    + getTipo() : TipoArvore
+}
+
+class Floresta {
+    - arvores : List<Arvore>
+    --
+    + plantarArvore(x, y, altura, especie, cor, textura) : void
+    + renderizar() : void
+    + totalArvores() : int
+    + totalTipos() : int
+}
+
+FabricaArvores --> TipoArvore : cria / cacheia
+Arvore --> TipoArvore : usa (estado intrínseco)
+Floresta --> FabricaArvores : delega criação
+Floresta o--> Arvore : contém
+
+note right of TipoArvore
+  Estado Intrínseco:
+  compartilhado entre
+  múltiplas Arvore
+end note
+
+note right of Arvore
+  Estado Extrínseco:
+  x, y, altura são únicos
+  por instância
+end note
+
+@enduml
