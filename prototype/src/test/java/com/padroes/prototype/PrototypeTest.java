@@ -73,6 +73,7 @@ class PrototypeTest {
             registro = new RegistroPersonagens();
             registro.registrar("guerreiro", new Guerreiro("Guerreiro", 150, 80, 100));
             registro.registrar("mago",      new Mago("Mago", 80, 150, 40));
+            registro.registrar("arqueiro",  new Arqueiro("Arqueiro", 100, 100, 70, 30));
         }
 
         @Test
