@@ -1,0 +1,63 @@
+@startuml Prototype
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Prototype — Personagens de RPG
+
+interface Personagem {
+    + clonar() : Personagem
+    + getNome() : String
+    + getVida() : int
+    + getAtaque() : int
+    + getDefesa() : int
+}
+
+class Guerreiro {
+    - nome : String
+    - vida : int
+    - ataque : int
+    - defesa : int
+    --
+    + clonar() : Personagem
+}
+
+class Mago {
+    - nome : String
+    - vida : int
+    - ataque : int
+    - defesa : int
+    --
+    + clonar() : Personagem
+}
+
+class Arqueiro {
+    - nome : String
+    - vida : int
+    - ataque : int
+    - defesa : int
+    - alcance : int
+    --
+    + clonar() : Personagem
+    + getAlcance() : int
+}
+
+class RegistroPersonagens {
+    - templates : Map<String, Personagem>
+    --
+    + registrar(chave : String, template : Personagem) : void
+    + obter(chave : String) : Personagem
+}
+
+Personagem <|.. Guerreiro
+Personagem <|.. Mago
+Personagem <|.. Arqueiro
+RegistroPersonagens --> Personagem : armazena templates\nretorna clones
+
+note bottom of RegistroPersonagens
+  obter() sempre retorna
+  um clone — nunca o template
+end note
+
+@enduml
