@@ -85,7 +85,7 @@ class FlyweightTest {
         }
 
         @Test
-        @DisplayName("Estado extrínseco difere entre árvores do mesmo tipo")
+        @DisplayName("Mesma espécie/cor/textura em posições distintas compartilha 1 flyweight")
         void estadoExtrinsecoDifereEntreArvores() {
             floresta.plantarArvore(10, 20, 5, "Carvalho", "Verde", "Rugosa");
             floresta.plantarArvore(30, 40, 15, "Carvalho", "Verde", "Rugosa");
