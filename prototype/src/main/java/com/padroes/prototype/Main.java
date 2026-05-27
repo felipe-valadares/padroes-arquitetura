@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         RegistroPersonagens registro = new RegistroPersonagens();
         registro.registrar("guerreiro", new Guerreiro("Guerreiro", 150, 80, 100));
-        registro.registrar("mago",      new Mago("Mago", 80, 150, 40));
+        registro.registrar("mago",      new Mago("Mago", 80, 150, 40, 200));
         registro.registrar("arqueiro",  new Arqueiro("Arqueiro", 100, 100, 70, 30));
 
         Guerreiro g1 = (Guerreiro) registro.obter("guerreiro");
@@ -16,7 +16,7 @@ public class Main {
         System.out.println("Guerreiro 2 : " + g2.getNome() + " | Vida: " + g2.getVida());
 
         Mago mago = (Mago) registro.obter("mago");
-        System.out.println("Mago        : " + mago.getNome() + " | Ataque: " + mago.getAtaque());
+        System.out.println("Mago        : " + mago.getNome() + " | Ataque: " + mago.getAtaque() + " | Mana: " + mago.getMana());
 
         Arqueiro arqueiro = (Arqueiro) registro.obter("arqueiro");
         System.out.println("Arqueiro    : " + arqueiro.getNome() + " | Alcance: " + arqueiro.getAlcance());

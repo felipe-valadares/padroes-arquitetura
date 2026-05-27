@@ -49,6 +49,20 @@ class PrototypeTest {
     }
 
     @Nested
+    @DisplayName("Clonagem — Mago (campo extra)")
+    class MagoTest {
+
+        @Test
+        @DisplayName("Clone de Mago preserva campo mana")
+        void clonePreservaMana() {
+            Mago template = new Mago("Mago", 80, 150, 40, 200);
+            Mago clone = (Mago) template.clonar();
+            assertEquals(200, clone.getMana());
+            assertNotSame(template, clone);
+        }
+    }
+
+    @Nested
     @DisplayName("Clonagem — Arqueiro (campo extra)")
     class ArqueiroTest {
 
@@ -72,7 +86,7 @@ class PrototypeTest {
         void setUp() {
             registro = new RegistroPersonagens();
             registro.registrar("guerreiro", new Guerreiro("Guerreiro", 150, 80, 100));
-            registro.registrar("mago",      new Mago("Mago", 80, 150, 40));
+            registro.registrar("mago",      new Mago("Mago", 80, 150, 40, 200));
             registro.registrar("arqueiro",  new Arqueiro("Arqueiro", 100, 100, 70, 30));
         }
 

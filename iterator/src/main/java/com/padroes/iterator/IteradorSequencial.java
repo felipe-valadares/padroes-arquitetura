@@ -1,5 +1,6 @@
 package com.padroes.iterator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class IteradorSequencial implements Iterador<Musica> {
@@ -7,7 +8,7 @@ class IteradorSequencial implements Iterador<Musica> {
     private int posicao = 0;
 
     IteradorSequencial(List<Musica> musicas) {
-        this.musicas = musicas;
+        this.musicas = new ArrayList<>(musicas);
     }
 
     @Override
