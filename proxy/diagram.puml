@@ -43,7 +43,7 @@ class ProxyServicoClima {
 
 ServicoClima <|.. ServicoClimaReal
 ServicoClima <|.. ProxyServicoClima
-ProxyServicoClima --> ServicoClimaReal : delega
+ProxyServicoClima --> ServicoClima : delega
 ProxyServicoClima ..> Previsao : armazena em cache
 ServicoClimaReal ..> Previsao : cria
 

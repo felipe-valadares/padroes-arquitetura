@@ -45,5 +45,6 @@ public class ProxyServicoClima implements ServicoClima {
     public void limparCache() {
         cacheTemperatura.clear();
         cachePrevisao.clear();
+        log.clear();
     }
 }
