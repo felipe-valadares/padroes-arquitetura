@@ -1,0 +1,77 @@
+@startuml Command
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Command — Controle Remoto
+
+interface Comando {
+    + executar() : void
+    + desfazer() : void
+}
+
+class Televisao {
+    - ligada : boolean
+    - volume : int
+    --
+    + ligar() : void
+    + desligar() : void
+    + setVolume(volume : int) : void
+    + getVolume() : int
+    + isLigada() : boolean
+}
+
+class LuzInteligente {
+    - ligada : boolean
+    - intensidade : int
+    --
+    + ligar() : void
+    + desligar() : void
+    + setIntensidade(intensidade : int) : void
+    + getIntensidade() : int
+    + isLigada() : boolean
+}
+
+class ComandoLigarTelevisao { + executar() \n + desfazer() }
+class ComandoDesligarTelevisao { + executar() \n + desfazer() }
+class ComandoAjustarVolume {
+    - novoVolume : int
+    - volumeAnterior : int
+    --
+    + executar() : void
+    + desfazer() : void
+}
+class ComandoLigarLuz { + executar() \n + desfazer() }
+class ComandoDesligarLuz { + executar() \n + desfazer() }
+class ComandoAjustarIntensidade {
+    - novaIntensidade : int
+    - intensidadeAnterior : int
+    --
+    + executar() : void
+    + desfazer() : void
+}
+
+class ControleRemoto {
+    - historico : Deque<Comando>
+    --
+    + executar(comando : Comando) : void
+    + desfazer() : void
+    + temHistorico() : boolean
+}
+
+Comando <|.. ComandoLigarTelevisao
+Comando <|.. ComandoDesligarTelevisao
+Comando <|.. ComandoAjustarVolume
+Comando <|.. ComandoLigarLuz
+Comando <|.. ComandoDesligarLuz
+Comando <|.. ComandoAjustarIntensidade
+ControleRemoto o--> Comando : historico
+ComandoLigarTelevisao --> Televisao
+ComandoDesligarTelevisao --> Televisao
+ComandoAjustarVolume --> Televisao
+ComandoLigarLuz --> LuzInteligente
+ComandoDesligarLuz --> LuzInteligente
+ComandoAjustarIntensidade --> LuzInteligente
+
+@enduml
