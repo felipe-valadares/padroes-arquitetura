@@ -1,0 +1,63 @@
+@startuml Adapter
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Adapter — Sistema de Pagamento
+
+interface ProcessadorPagamento {
+    + processar(pagamento : Pagamento) : Recibo
+}
+
+class Pagamento {
+    - valor : double
+    - descricao : String
+    - destinatario : String
+    --
+    + getValor() : double
+    + getDescricao() : String
+    + getDestinatario() : String
+}
+
+class Recibo {
+    - id : String
+    - status : String
+    - valor : double
+    --
+    + getId() : String
+    + getStatus() : String
+    + getValor() : double
+}
+
+class PagSeguroCliente {
+    + efetuarCobranca(quantia, produto, recebedor) : String
+    + consultarStatus(codigo) : String
+}
+
+class StripeCliente {
+    + charge(amountCents, description, recipient) : StripeCharge
+}
+
+class AdaptadorPagSeguro {
+    - cliente : PagSeguroCliente
+    --
+    + processar(pagamento : Pagamento) : Recibo
+}
+
+class AdaptadorStripe {
+    - cliente : StripeCliente
+    --
+    + processar(pagamento : Pagamento) : Recibo
+}
+
+ProcessadorPagamento <|.. AdaptadorPagSeguro
+ProcessadorPagamento <|.. AdaptadorStripe
+AdaptadorPagSeguro --> PagSeguroCliente : adapta
+AdaptadorStripe --> StripeCliente : adapta
+AdaptadorPagSeguro ..> Pagamento : usa
+AdaptadorPagSeguro ..> Recibo : cria
+AdaptadorStripe ..> Pagamento : usa
+AdaptadorStripe ..> Recibo : cria
+
+@enduml
