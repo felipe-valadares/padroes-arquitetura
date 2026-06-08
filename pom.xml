@@ -32,6 +32,9 @@
         <module>flyweight</module>
         <module>iterator</module>
         <module>prototype</module>
+        <module>adapter</module>
+        <module>command</module>
+        <module>proxy</module>
     </modules>
 
     <properties>
