@@ -1,0 +1,50 @@
+@startuml Proxy
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Proxy — Serviço de Clima com Cache
+
+interface ServicoClima {
+    + obterTemperatura(cidade : String) : double
+    + obterPrevisao(cidade : String) : Previsao
+}
+
+class Previsao {
+    - cidade : String
+    - temperatura : double
+    - condicao : String
+    --
+    + getCidade() : String
+    + getTemperatura() : double
+    + getCondicao() : String
+}
+
+class ServicoClimaReal {
+    - chamadas : int
+    --
+    + obterTemperatura(cidade : String) : double
+    + obterPrevisao(cidade : String) : Previsao
+    + getChamadas() : int
+}
+
+class ProxyServicoClima {
+    - real : ServicoClima
+    - cacheTemperatura : Map<String, Double>
+    - cachePrevisao : Map<String, Previsao>
+    - log : List<String>
+    --
+    + obterTemperatura(cidade : String) : double
+    + obterPrevisao(cidade : String) : Previsao
+    + getLog() : List<String>
+    + limparCache() : void
+}
+
+ServicoClima <|.. ServicoClimaReal
+ServicoClima <|.. ProxyServicoClima
+ProxyServicoClima --> ServicoClimaReal : delega
+ProxyServicoClima ..> Previsao : armazena em cache
+ServicoClimaReal ..> Previsao : cria
+
+@enduml
