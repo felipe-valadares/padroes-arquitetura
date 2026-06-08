@@ -37,6 +37,21 @@ class CommandTest {
     }
 
     @Nested
+    @DisplayName("LuzInteligente")
+    class LuzInteligenteTest {
+
+        @Test
+        @DisplayName("Intensidade deve ser limitada entre 0 e 100")
+        void intensidadeLimitadaEntreZeroECem() {
+            LuzInteligente luz = new LuzInteligente();
+            luz.setIntensidade(150);
+            assertEquals(100, luz.getIntensidade());
+            luz.setIntensidade(-5);
+            assertEquals(0, luz.getIntensidade());
+        }
+    }
+
+    @Nested
     @DisplayName("Comandos de Televisao")
     class ComandosTelevisaoTest {
 
@@ -130,6 +145,7 @@ class CommandTest {
         @DisplayName("Múltiplos desfazeres ocorrem na ordem inversa de execução")
         void multiplosUndosEmOrdemInversa() {
             Televisao tv = new Televisao();
+            tv.setVolume(10);
             ControleRemoto controle = new ControleRemoto();
 
             controle.executar(new ComandoLigarTelevisao(tv));
