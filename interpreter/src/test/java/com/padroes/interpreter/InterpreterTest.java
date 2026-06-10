@@ -57,6 +57,14 @@ class InterpreterTest {
             assertThrows(IllegalArgumentException.class,
                 () -> new ExpressaoVariavel("z").interpretar(ctx));
         }
+
+        @Test
+        @DisplayName("definir() com mesmo nome sobrescreve valor anterior")
+        void definirSobrescreveValorAnterior() {
+            ctx.definir("x", 1);
+            ctx.definir("x", 99);
+            assertEquals(99, new ExpressaoVariavel("x").interpretar(ctx));
+        }
     }
 
     @Nested
@@ -89,6 +97,13 @@ class InterpreterTest {
         void divisao() {
             Expressao expr = new ExpressaoDivisao(new ExpressaoNumero(20), new ExpressaoNumero(4));
             assertEquals(5, expr.interpretar(ctx));
+        }
+
+        @Test
+        @DisplayName("Divisão por zero deve lançar ArithmeticException")
+        void divisaoPorZeroLancaExcecao() {
+            Expressao expr = new ExpressaoDivisao(new ExpressaoNumero(10), new ExpressaoNumero(0));
+            assertThrows(ArithmeticException.class, () -> expr.interpretar(ctx));
         }
     }
 

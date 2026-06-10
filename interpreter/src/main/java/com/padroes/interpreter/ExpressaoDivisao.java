@@ -11,6 +11,8 @@ public class ExpressaoDivisao implements Expressao {
 
     @Override
     public int interpretar(Contexto contexto) {
-        return esquerda.interpretar(contexto) / direita.interpretar(contexto);
+        int divisor = direita.interpretar(contexto);
+        if (divisor == 0) throw new ArithmeticException("Divisão por zero");
+        return esquerda.interpretar(contexto) / divisor;
     }
 }
