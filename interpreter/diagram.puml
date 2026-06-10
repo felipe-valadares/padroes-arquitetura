@@ -1,0 +1,78 @@
+@startuml Interpreter
+
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam shadowing false
+
+title Padrão Interpreter — Calculadora de Expressões
+
+interface Expressao {
+    + interpretar(contexto : Contexto) : int
+}
+
+class Contexto {
+    - variaveis : Map<String, Integer>
+    --
+    + definir(nome : String, valor : int) : void
+    + obter(nome : String) : int
+}
+
+class ExpressaoNumero {
+    - valor : int
+    --
+    + interpretar(contexto : Contexto) : int
+}
+
+class ExpressaoVariavel {
+    - nome : String
+    --
+    + interpretar(contexto : Contexto) : int
+}
+
+class ExpressaoSoma {
+    - esquerda : Expressao
+    - direita : Expressao
+    --
+    + interpretar(contexto : Contexto) : int
+}
+
+class ExpressaoSubtracao {
+    - esquerda : Expressao
+    - direita : Expressao
+    --
+    + interpretar(contexto : Contexto) : int
+}
+
+class ExpressaoMultiplicacao {
+    - esquerda : Expressao
+    - direita : Expressao
+    --
+    + interpretar(contexto : Contexto) : int
+}
+
+class ExpressaoDivisao {
+    - esquerda : Expressao
+    - direita : Expressao
+    --
+    + interpretar(contexto : Contexto) : int
+}
+
+Expressao <|.. ExpressaoNumero
+Expressao <|.. ExpressaoVariavel
+Expressao <|.. ExpressaoSoma
+Expressao <|.. ExpressaoSubtracao
+Expressao <|.. ExpressaoMultiplicacao
+Expressao <|.. ExpressaoDivisao
+
+ExpressaoSoma o--> Expressao : esquerda
+ExpressaoSoma o--> Expressao : direita
+ExpressaoSubtracao o--> Expressao : esquerda
+ExpressaoSubtracao o--> Expressao : direita
+ExpressaoMultiplicacao o--> Expressao : esquerda
+ExpressaoMultiplicacao o--> Expressao : direita
+ExpressaoDivisao o--> Expressao : esquerda
+ExpressaoDivisao o--> Expressao : direita
+
+ExpressaoVariavel ..> Contexto : consulta
+
+@enduml
